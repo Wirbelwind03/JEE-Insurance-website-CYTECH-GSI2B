@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- ===== Connexion à la base (MySQL) ===== -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/assurance?useSSL=false&amp;serverTimezone=Europe/Paris&amp;allowPublicKeyRetrieval=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">motdepasse</property>
+
+        <!-- Pour PostgreSQL, remplacer les 2 premières lignes par :
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/assurance</property>
+        -->
+
+        <!-- Hibernate 6+ détecte le dialecte tout seul : pas besoin de hibernate.dialect -->
+
+        <!-- Pool de connexions intégré : suffisant pour le développement -->
+        <property name="hibernate.connection.pool_size">10</property>
+
+        <!-- Une session par thread : indispensable pour getCurrentSession() dans les DAO -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- Création / mise à jour automatique des tables à partir des entités.
+             update   : garde les données, ajoute les colonnes manquantes (dev)
+             validate : vérifie seulement que les tables correspondent (rendu final) -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Affiche le SQL dans la console Tomcat (pratique pour déboguer) -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- ===== Entités ===== -->
+        <!-- Chaque membre du groupe ajoute ici les siennes -->
+        <mapping class="com.assurance.model.Role"/>
+        <mapping class="com.assurance.model.Utilisateur"/>
+        <!--
+        <mapping class="com.assurance.model.TypeAssurance"/>
+        <mapping class="com.assurance.model.Garantie"/>
+        <mapping class="com.assurance.model.Contrat"/>
+        <mapping class="com.assurance.model.Sinistre"/>
+        <mapping class="com.assurance.model.Paiement"/>
+        -->
+
+    </session-factory>
+</hibernate-configuration>
